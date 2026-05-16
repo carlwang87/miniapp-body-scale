@@ -107,6 +107,35 @@ function parseA55aFrame(bytes, rawHex) {
   };
 }
 
+function parseEwFa33ObservedFrame(bytes, rawHex) {
+  const header = bytes[0];
+  if (header !== 0xcf && header !== 0xdf) {
+    return null;
+  }
+
+  const frameType = header === 0xcf ? 'notify-status' : 'notify-data';
+  const command = bytes.length >= 4 ? `${byteToHex(bytes[2])}${byteToHex(bytes[3])}` : '';
+  const candidateValue = bytes.length >= 5 ? readUInt16BE(bytes, 3) : null;
+  const flags = bytes.length >= 2 ? bytes[bytes.length - 2] : null;
+
+  return {
+    success: false,
+    parseStatus: 'CAPTURED',
+    protocolRecognized: true,
+    measurementCompleted: false,
+    error: '已收到 EW-FA33 原始帧，但当前样本不足以稳定解析体重；请复制完整 raw hex 继续分析',
+    raw: {
+      bytes,
+      rawHex,
+      frameType,
+      command,
+      candidateValue,
+      flags
+    },
+    parser: 'ew-fa33-observed'
+  };
+}
+
 function parseBodyScalePayload({ deviceModel = 'EW-FA33', rawHex }) {
   const hex = cleanHex(rawHex);
   if (!hex) {
@@ -130,8 +159,14 @@ function parseBodyScalePayload({ deviceModel = 'EW-FA33', rawHex }) {
     return demoFrame;
   }
 
+  const observedFrame = parseEwFa33ObservedFrame(bytes, hex);
+  if (observedFrame) {
+    return observedFrame;
+  }
+
   return {
     success: false,
+    parseStatus: 'FAILED',
     measurementCompleted: false,
     error: `${deviceModel} 协议未识别，已保存 raw hex 等待抓包分析`,
     raw: { bytes, rawHex: hex },

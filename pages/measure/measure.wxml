@@ -49,13 +49,19 @@
       <view class="section-title">BLE 原始数据</view>
       <button class="btn ghost small-btn" bindtap="goDevice">设备</button>
     </view>
+    <view class="raw-actions">
+      <button class="btn ghost raw-btn" bindtap="copyRawLogs">复制 raw</button>
+      <button class="btn secondary raw-btn" bindtap="clearRawLogs">清空</button>
+    </view>
+    <view class="capture-tip" wx:if="{{captureSummary}}">{{captureSummary}}</view>
     <view class="raw-current" wx:if="{{rawHex}}">{{rawHex}}</view>
     <view class="empty" wx:else>等待 notify 数据。也可以使用模拟测量生成示例 raw hex。</view>
     <view class="raw-log" wx:for="{{rawLogs}}" wx:key="id">
       <view class="row">
         <text>{{item.timeText}}</text>
-        <text class="{{item.parseStatus === 'SUCCESS' ? 'success' : 'failed'}}">{{item.parseStatus}}</text>
+        <text class="{{item.statusClass}}">{{item.parseStatus}}</text>
       </view>
+      <view class="muted" wx:if="{{item.parser}}">{{item.parser}}</view>
       <view class="raw-hex">{{item.rawHex}}</view>
       <view class="muted" wx:if="{{item.parseError}}">{{item.parseError}}</view>
     </view>
