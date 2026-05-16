@@ -15,6 +15,13 @@
     <view class="info-line">型号：{{boundDevice.deviceModel}}</view>
     <view class="info-line">服务：{{boundDevice.serviceUuid || '待识别'}}</view>
     <view class="info-line">Notify：{{boundDevice.notifyCharacteristicUuid || '待识别'}}</view>
+    <view class="info-line">Notify 数量：{{boundDevice.notifyCharacteristics ? boundDevice.notifyCharacteristics.length : 0}}</view>
+    <view class="info-line">Write 数量：{{boundDevice.writeCharacteristics ? boundDevice.writeCharacteristics.length : 0}}</view>
+    <view class="char-list" wx:if="{{boundDevice.characteristics && boundDevice.characteristics.length}}">
+      <view class="char-item" wx:for="{{boundDevice.characteristics}}" wx:key="characteristicUuid">
+        {{item.serviceUuid}} / {{item.characteristicUuid}}
+      </view>
+    </view>
     <view class="info-line">绑定时间：{{boundDevice.bindTimeText}}</view>
     <view class="info-line">最近连接：{{boundDevice.lastConnectedText}}</view>
     <view class="grid-2 action-grid">

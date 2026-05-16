@@ -60,6 +60,9 @@ Page({
         serviceUuid: discovery.serviceUuid,
         notifyCharacteristicUuid: discovery.notifyCharacteristicUuid,
         writeCharacteristicUuid: discovery.writeCharacteristicUuid,
+        notifyCharacteristics: discovery.notifyCharacteristics,
+        writeCharacteristics: discovery.writeCharacteristics,
+        characteristics: discovery.characteristics,
         lastConnectedTime: new Date().toISOString()
       });
       store.markDeviceConnected(nextDevice.id);
@@ -90,6 +93,7 @@ Page({
         deviceId: connectedDevice.bluetoothDeviceId,
         serviceUuid: connectedDevice.serviceUuid,
         notifyCharacteristicUuid: connectedDevice.notifyCharacteristicUuid,
+        notifyCharacteristics: connectedDevice.notifyCharacteristics,
         onValue: (payload) => this.handleBleValue(payload)
       });
       wx.showToast({ title: '已订阅 notify', icon: 'success' });
@@ -186,7 +190,13 @@ Page({
     }
 
     const text = logs
-      .map((item) => `${date.formatDateTime(item.receivedAt)} ${item.parseStatus} ${item.parser || ''}\n${item.rawHex}\n${item.parseError || ''}`)
+      .map((item) => [
+        `${date.formatDateTime(item.receivedAt)} ${item.parseStatus} ${item.parser || ''}`,
+        `service=${item.serviceUuid || ''}`,
+        `characteristic=${item.characteristicUuid || ''}`,
+        item.rawHex,
+        item.parseError || ''
+      ].join('\n'))
       .join('\n\n');
 
     wx.setClipboardData({

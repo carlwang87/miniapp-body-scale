@@ -29,6 +29,10 @@ function readUInt16BE(bytes, offset) {
   return ((bytes[offset] || 0) << 8) + (bytes[offset + 1] || 0);
 }
 
+function readUInt16LE(bytes, offset) {
+  return (bytes[offset] || 0) + ((bytes[offset + 1] || 0) << 8);
+}
+
 function normalizeNumber(value, digits) {
   const number = Number(value);
   if (Number.isNaN(number)) {
@@ -116,7 +120,11 @@ function parseEwFa33ObservedFrame(bytes, rawHex) {
   const frameType = header === 0xcf ? 'notify-status' : 'notify-data';
   const command = bytes.length >= 4 ? `${byteToHex(bytes[2])}${byteToHex(bytes[3])}` : '';
   const candidateValue = bytes.length >= 5 ? readUInt16BE(bytes, 3) : null;
+  const littleEndianValue = bytes.length >= 5 ? readUInt16LE(bytes, 3) : null;
+  const impedanceOhm = bytes[4] === 0x20 || bytes[4] === 0x21 ? normalizeNumber(littleEndianValue / 10, 1) : null;
   const flags = bytes.length >= 2 ? bytes[bytes.length - 2] : null;
+  const checksum = bytes[bytes.length - 1];
+  const checksumSum = bytes.reduce((total, byte) => (total + byte) & 0xff, 0);
 
   return {
     success: false,
@@ -130,7 +138,12 @@ function parseEwFa33ObservedFrame(bytes, rawHex) {
       frameType,
       command,
       candidateValue,
-      flags
+      littleEndianValue,
+      impedanceOhm,
+      flags,
+      checksum,
+      checksumOk: checksumSum === 0,
+      checksumSum
     },
     parser: 'ew-fa33-observed'
   };

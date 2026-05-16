@@ -80,6 +80,9 @@ Page({
         serviceUuid: discovery.serviceUuid,
         notifyCharacteristicUuid: discovery.notifyCharacteristicUuid,
         writeCharacteristicUuid: discovery.writeCharacteristicUuid,
+        notifyCharacteristics: discovery.notifyCharacteristics,
+        writeCharacteristics: discovery.writeCharacteristics,
+        characteristics: discovery.characteristics,
         bindTime: new Date().toISOString(),
         lastConnectedTime: new Date().toISOString()
       });
@@ -124,8 +127,18 @@ Page({
 
     try {
       this.setData({ state: ble.STATES.connecting });
-      await ble.connect(boundDevice);
-      store.markDeviceConnected(boundDevice.id);
+      const discovery = await ble.connect(boundDevice);
+      store.saveDevice({
+        ...boundDevice,
+        bluetoothDeviceId: discovery.deviceId,
+        serviceUuid: discovery.serviceUuid,
+        notifyCharacteristicUuid: discovery.notifyCharacteristicUuid,
+        writeCharacteristicUuid: discovery.writeCharacteristicUuid,
+        notifyCharacteristics: discovery.notifyCharacteristics,
+        writeCharacteristics: discovery.writeCharacteristics,
+        characteristics: discovery.characteristics,
+        lastConnectedTime: new Date().toISOString()
+      });
       this.setData({ state: ble.STATES.connected });
       this.refresh();
       wx.showToast({ title: '连接成功', icon: 'success' });

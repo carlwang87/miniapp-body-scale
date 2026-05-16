@@ -17,6 +17,26 @@
   word-break: break-all;
 }
 
+.char-list {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border-radius: 8rpx;
+  background: #edf2f7;
+}
+
+.char-item {
+  margin-top: 8rpx;
+  color: #52606d;
+  font-family: Menlo, Consolas, monospace;
+  font-size: 20rpx;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+.char-item:first-child {
+  margin-top: 0;
+}
+
 .action-grid {
   margin-top: 24rpx;
 }

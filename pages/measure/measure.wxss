@@ -126,6 +126,13 @@
   border-top: 1rpx solid #edf2f7;
 }
 
+.raw-meta {
+  overflow-wrap: break-word;
+  word-break: break-all;
+  font-family: Menlo, Consolas, monospace;
+  font-size: 20rpx;
+}
+
 .success {
   color: #17643b;
 }

@@ -119,7 +119,9 @@ async function connect(device) {
 async function discoverCharacteristics(deviceId) {
   const servicesResult = await callWx('getBLEDeviceServices', { deviceId });
   const services = servicesResult.services || [];
-  let matched = null;
+  const allCharacteristics = [];
+  const notifyCharacteristics = [];
+  const writeCharacteristics = [];
 
   for (let index = 0; index < services.length; index += 1) {
     const service = services[index];
@@ -128,29 +130,47 @@ async function discoverCharacteristics(deviceId) {
       serviceId: service.uuid
     });
     const characteristics = characteristicsResult.characteristics || [];
-    const notify = characteristics.find((item) => item.properties && (item.properties.notify || item.properties.indicate));
-    const writable = characteristics.find((item) => item.properties && (item.properties.write || item.properties.writeNoResponse));
-    if (notify || writable) {
-      matched = {
-        deviceId,
+    characteristics.forEach((characteristic) => {
+      const item = {
         serviceUuid: service.uuid,
-        notifyCharacteristicUuid: notify ? notify.uuid : '',
-        writeCharacteristicUuid: writable ? writable.uuid : '',
-        characteristics
+        characteristicUuid: characteristic.uuid,
+        properties: characteristic.properties || {}
       };
-      break;
-    }
+      allCharacteristics.push(item);
+      if (item.properties.notify || item.properties.indicate) {
+        notifyCharacteristics.push(item);
+      }
+      if (item.properties.write || item.properties.writeNoResponse) {
+        writeCharacteristics.push(item);
+      }
+    });
   }
 
-  if (!matched) {
+  if (!notifyCharacteristics.length && !writeCharacteristics.length) {
     throw new Error('未找到可用的 notify/write characteristic');
   }
 
-  return matched;
+  const firstNotify = notifyCharacteristics[0] || {};
+  const firstWrite = writeCharacteristics[0] || {};
+
+  return {
+    deviceId,
+    serviceUuid: firstNotify.serviceUuid || firstWrite.serviceUuid || '',
+    notifyCharacteristicUuid: firstNotify.characteristicUuid || '',
+    writeCharacteristicUuid: firstWrite.characteristicUuid || '',
+    notifyCharacteristics,
+    writeCharacteristics,
+    characteristics: allCharacteristics
+  };
 }
 
-async function enableNotify({ deviceId, serviceUuid, notifyCharacteristicUuid, onValue }) {
-  if (!notifyCharacteristicUuid) {
+async function enableNotify({ deviceId, serviceUuid, notifyCharacteristicUuid, notifyCharacteristics, onValue }) {
+  const targets = notifyCharacteristics && notifyCharacteristics.length
+    ? notifyCharacteristics
+    : [{ serviceUuid, characteristicUuid: notifyCharacteristicUuid }];
+
+  const validTargets = targets.filter((item) => item.serviceUuid && item.characteristicUuid);
+  if (!validTargets.length) {
     throw new Error('缺少 notify characteristic');
   }
 
@@ -174,12 +194,15 @@ async function enableNotify({ deviceId, serviceUuid, notifyCharacteristicUuid, o
   };
   wx.onBLECharacteristicValueChange(valueHandler);
 
-  await callWx('notifyBLECharacteristicValueChange', {
-    state: true,
-    deviceId,
-    serviceId: serviceUuid,
-    characteristicId: notifyCharacteristicUuid
-  });
+  for (let index = 0; index < validTargets.length; index += 1) {
+    const target = validTargets[index];
+    await callWx('notifyBLECharacteristicValueChange', {
+      state: true,
+      deviceId,
+      serviceId: target.serviceUuid,
+      characteristicId: target.characteristicUuid
+    });
+  }
 }
 
 async function disconnect() {
@@ -211,6 +234,18 @@ function createMockDevice() {
     serviceUuid: '0000FFF0-0000-1000-8000-00805F9B34FB',
     notifyCharacteristicUuid: '0000FFF1-0000-1000-8000-00805F9B34FB',
     writeCharacteristicUuid: '0000FFF2-0000-1000-8000-00805F9B34FB',
+    notifyCharacteristics: [
+      {
+        serviceUuid: '0000FFF0-0000-1000-8000-00805F9B34FB',
+        characteristicUuid: '0000FFF1-0000-1000-8000-00805F9B34FB'
+      }
+    ],
+    writeCharacteristics: [
+      {
+        serviceUuid: '0000FFF0-0000-1000-8000-00805F9B34FB',
+        characteristicUuid: '0000FFF2-0000-1000-8000-00805F9B34FB'
+      }
+    ],
     active: true
   };
 }

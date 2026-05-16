@@ -62,6 +62,7 @@
         <text class="{{item.statusClass}}">{{item.parseStatus}}</text>
       </view>
       <view class="muted" wx:if="{{item.parser}}">{{item.parser}}</view>
+      <view class="muted raw-meta" wx:if="{{item.characteristicUuid}}">{{item.characteristicUuid}}</view>
       <view class="raw-hex">{{item.rawHex}}</view>
       <view class="muted" wx:if="{{item.parseError}}">{{item.parseError}}</view>
     </view>
