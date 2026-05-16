@@ -15,11 +15,14 @@
     <view class="info-line">型号：{{boundDevice.deviceModel}}</view>
     <view class="info-line">服务：{{boundDevice.serviceUuid || '待识别'}}</view>
     <view class="info-line">Notify：{{boundDevice.notifyCharacteristicUuid || '待识别'}}</view>
+    <view class="info-line">Write：{{boundDevice.writeCharacteristicUuid || '待识别'}}</view>
     <view class="info-line">Notify 数量：{{boundDevice.notifyCharacteristics ? boundDevice.notifyCharacteristics.length : 0}}</view>
     <view class="info-line">Write 数量：{{boundDevice.writeCharacteristics ? boundDevice.writeCharacteristics.length : 0}}</view>
     <view class="char-list" wx:if="{{boundDevice.characteristics && boundDevice.characteristics.length}}">
       <view class="char-item" wx:for="{{boundDevice.characteristics}}" wx:key="characteristicUuid">
-        {{item.serviceUuid}} / {{item.characteristicUuid}}
+        <view>{{item.serviceUuid}}</view>
+        <view>{{item.characteristicUuid}}</view>
+        <view class="char-props">{{item.propertyText}}</view>
       </view>
     </view>
     <view class="info-line">绑定时间：{{boundDevice.bindTimeText}}</view>
@@ -28,6 +31,7 @@
       <button class="btn" bindtap="reconnectBound">重新连接</button>
       <button class="btn secondary" bindtap="disconnectBound">断开</button>
     </view>
+    <button class="btn ghost section" bindtap="copyDeviceInfo">复制设备信息</button>
     <button class="btn danger section" bindtap="unbindDevice">解绑设备</button>
   </view>
 

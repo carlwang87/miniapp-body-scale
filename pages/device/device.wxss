@@ -26,6 +26,8 @@
 
 .char-item {
   margin-top: 8rpx;
+  padding-top: 8rpx;
+  border-top: 1rpx solid #d9e2ec;
   color: #52606d;
   font-family: Menlo, Consolas, monospace;
   font-size: 20rpx;
@@ -35,6 +37,13 @@
 
 .char-item:first-child {
   margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.char-props {
+  margin-top: 4rpx;
+  color: #0b6bcb;
 }
 
 .action-grid {

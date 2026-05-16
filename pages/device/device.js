@@ -24,10 +24,51 @@ Page({
       boundDevice: boundDevice
         ? {
             ...boundDevice,
+            characteristics: this.formatCharacteristics(boundDevice.characteristics || []),
+            notifyCharacteristics: this.formatCharacteristics(boundDevice.notifyCharacteristics || []),
+            writeCharacteristics: this.formatCharacteristics(boundDevice.writeCharacteristics || []),
             bindTimeText: boundDevice.bindTime ? date.formatDateTime(boundDevice.bindTime) : '--',
             lastConnectedText: boundDevice.lastConnectedTime ? date.formatDateTime(boundDevice.lastConnectedTime) : '尚未连接'
           }
         : null
+    });
+  },
+
+  formatCharacteristics(characteristics) {
+    return characteristics.map((item) => {
+      const properties = item.properties || {};
+      const flags = Object.keys(properties).filter((key) => properties[key]);
+      return {
+        ...item,
+        propertyText: flags.length ? flags.join(', ') : 'unknown'
+      };
+    });
+  },
+
+  copyDeviceInfo() {
+    const { boundDevice } = this.data;
+    if (!boundDevice) {
+      wx.showToast({ title: '暂无设备信息', icon: 'none' });
+      return;
+    }
+
+    const lines = [
+      `deviceName=${boundDevice.deviceName}`,
+      `bluetoothDeviceId=${boundDevice.bluetoothDeviceId}`,
+      `serviceUuid=${boundDevice.serviceUuid}`,
+      `notifyCharacteristicUuid=${boundDevice.notifyCharacteristicUuid}`,
+      `writeCharacteristicUuid=${boundDevice.writeCharacteristicUuid}`,
+      `notifyCount=${boundDevice.notifyCharacteristics ? boundDevice.notifyCharacteristics.length : 0}`,
+      `writeCount=${boundDevice.writeCharacteristics ? boundDevice.writeCharacteristics.length : 0}`,
+      'characteristics='
+    ];
+    (boundDevice.characteristics || []).forEach((item) => {
+      lines.push(`${item.serviceUuid} / ${item.characteristicUuid} / ${item.propertyText}`);
+    });
+
+    wx.setClipboardData({
+      data: lines.join('\n'),
+      success: () => wx.showToast({ title: '已复制设备信息', icon: 'success' })
     });
   },
 
@@ -128,7 +169,7 @@ Page({
     try {
       this.setData({ state: ble.STATES.connecting });
       const discovery = await ble.connect(boundDevice);
-      store.saveDevice({
+      const saved = store.saveDevice({
         ...boundDevice,
         bluetoothDeviceId: discovery.deviceId,
         serviceUuid: discovery.serviceUuid,
@@ -141,7 +182,7 @@ Page({
       });
       this.setData({ state: ble.STATES.connected });
       this.refresh();
-      wx.showToast({ title: '连接成功', icon: 'success' });
+      wx.showToast({ title: `连接成功 ${saved.notifyCharacteristics.length}N/${saved.writeCharacteristics.length}W`, icon: 'success' });
     } catch (error) {
       this.setData({ state: ble.STATES.failed });
       wx.showToast({ title: error.message, icon: 'none' });
