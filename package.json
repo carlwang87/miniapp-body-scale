@@ -1,0 +1,14 @@
+{
+  "name": "miniapp-body-scale",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Panasonic EW-FA33 智能体脂秤微信小程序 MVP",
+  "scripts": {
+    "check:js": "node scripts/check-js.js",
+    "check:json": "node scripts/check-json.js",
+    "upload:mp": "node scripts/upload-miniprogram-ci.js"
+  },
+  "devDependencies": {
+    "miniprogram-ci": "^2.0.10"
+  }
+}

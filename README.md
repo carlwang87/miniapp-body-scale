@@ -34,3 +34,23 @@ EW-FA33 的真实 BLE 协议仍需实机抓包确认。当前 `utils/parser.js` 
 ## 后端
 
 当前 MVP 使用本地 `wx.setStorageSync` 完成数据闭环。`utils/request.js` 已按需求封装后端接口路径，配置 `API_BASE_URL` 后即可替换为真实 API。
+
+## GitHub Actions
+
+项目内置两个 workflow：
+
+- `.github/workflows/ci.yml`：每次 push / pull request 检查 JS 语法和 JSON 配置。
+- `.github/workflows/miniprogram-upload.yml`：手动触发微信小程序代码上传。
+
+自动上传前，需要在 GitHub 仓库配置 Actions secrets：
+
+```text
+MP_APPID=微信小程序 AppID
+MP_PRIVATE_KEY=微信公众平台下载的代码上传密钥文件内容
+```
+
+注意：
+
+- `AppSecret` 不是代码上传密钥，不要放进小程序前端代码。
+- 代码上传密钥来自“微信公众平台 -> 开发 -> 开发管理 -> 开发设置 -> 小程序代码上传”。
+- GitHub Actions 的公网 IP 不固定，如微信后台开启 IP 白名单，可能需要关闭白名单或改用固定 IP 的 self-hosted runner。

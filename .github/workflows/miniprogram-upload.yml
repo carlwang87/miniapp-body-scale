@@ -1,0 +1,48 @@
+name: Upload WeChat Mini Program
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Upload version, for example 0.1.0
+        required: true
+        default: 0.1.0
+      desc:
+        description: Upload description shown in WeChat Mini Program admin
+        required: true
+        default: GitHub Actions upload
+      robot:
+        description: WeChat upload robot number, usually 1-30
+        required: true
+        default: "1"
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Write private key
+        shell: bash
+        run: |
+          printf '%s' "${{ secrets.MP_PRIVATE_KEY }}" > private.key
+          chmod 600 private.key
+
+      - name: Upload mini program
+        env:
+          MP_APPID: ${{ secrets.MP_APPID }}
+          MP_PRIVATE_KEY_PATH: private.key
+          MP_VERSION: ${{ inputs.version }}
+          MP_DESC: ${{ inputs.desc }}
+          MP_ROBOT: ${{ inputs.robot }}
+        run: npm run upload:mp
