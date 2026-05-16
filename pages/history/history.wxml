@@ -1,0 +1,44 @@
+<view class="page">
+  <view class="card">
+    <view class="filter-row">
+      <picker mode="selector" range="{{memberNames}}" value="{{selectedMemberIndex}}" bindchange="onMemberChange">
+        <view class="filter-box">
+          <text class="muted">成员</text>
+          <text>{{memberNames[selectedMemberIndex] || '未设置'}}</text>
+        </view>
+      </picker>
+      <picker mode="selector" range="{{rangeLabels}}" value="{{selectedRangeIndex}}" bindchange="onRangeChange">
+        <view class="filter-box">
+          <text class="muted">范围</text>
+          <text>{{rangeLabels[selectedRangeIndex]}}</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="card section" wx:if="{{records.length}}">
+    <view class="record" wx:for="{{records}}" wx:key="id">
+      <view class="row">
+        <view>
+          <view class="record-time">{{item.timeText}}</view>
+          <view class="muted">{{item.memberName}} · {{item.source === 'mock' ? '模拟测量' : 'BLE 测量'}}</view>
+        </view>
+        <view class="weight">{{item.weightText}}</view>
+      </view>
+      <view class="record-metrics">
+        <view>BMI {{item.bmiText}}</view>
+        <view>体脂 {{item.fatText}}</view>
+        <view>心率 {{item.heartText}}</view>
+      </view>
+      <view class="grid-2 record-actions">
+        <button class="btn ghost" data-id="{{item.id}}" bindtap="viewDetail">详情</button>
+        <button class="btn secondary" data-id="{{item.id}}" bindtap="deleteRecord">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="card section" wx:else>
+    <view class="empty">当前筛选条件下没有测量记录。</view>
+    <button class="btn" bindtap="goMeasure">去测量</button>
+  </view>
+</view>

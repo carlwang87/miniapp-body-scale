@@ -1,0 +1,77 @@
+<view class="page home-page">
+  <view class="hero">
+    <image class="scale-photo" src="/Panasonic-EW-FA33.jpeg" mode="aspectFill" />
+    <view class="hero-overlay">
+      <view class="title">智能体脂秤</view>
+      <view class="subtitle">Panasonic EW-FA33 BLE 测量助手</view>
+    </view>
+  </view>
+
+  <view class="card section">
+    <view class="row">
+      <view>
+        <view class="muted">当前成员</view>
+        <view class="member-name">{{member ? member.name : '未设置'}}</view>
+      </view>
+      <button class="btn ghost small-btn" bindtap="goMember">切换</button>
+    </view>
+  </view>
+
+  <view class="card section device-card">
+    <view class="row">
+      <view>
+        <view class="muted">设备状态</view>
+        <view class="device-name">{{device ? device.deviceName : '尚未绑定体脂秤'}}</view>
+      </view>
+      <view class="pill {{device ? 'ok' : 'warn'}}">{{device ? '已绑定' : '待绑定'}}</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <button class="btn primary-action" bindtap="goMeasure">开始测量</button>
+  </view>
+
+  <view class="card section" wx:if="{{latest}}">
+    <view class="row">
+      <view>
+        <view class="muted">最近一次测量</view>
+        <view class="latest-time">{{latest.timeText}}</view>
+      </view>
+      <button class="btn ghost small-btn" bindtap="goHistory">历史</button>
+    </view>
+
+    <view class="grid-2 metric-grid">
+      <view class="metric" wx:for="{{latestMetrics}}" wx:key="key">
+        <view class="metric-label">{{item.label}}</view>
+        <view class="metric-value">{{item.value}}</view>
+        <view class="pill status-pill {{item.status && item.status.tone}}">{{item.status ? item.status.label : '已记录'}}</view>
+      </view>
+    </view>
+
+    <view class="report">{{report}}</view>
+  </view>
+
+  <view class="card section" wx:else>
+    <view class="empty">还没有测量记录。完成一次模拟或真实测量后，这里会显示结果。</view>
+  </view>
+
+  <view class="card section">
+    <view class="row">
+      <view class="section-title">体重趋势简图</view>
+      <button class="btn ghost small-btn" bindtap="goTrend">趋势</button>
+    </view>
+    <view class="mini-chart" wx:if="{{trendBars.length}}">
+      <view class="bar-cell" wx:for="{{trendBars}}" wx:key="id">
+        <view class="bar-value">{{item.value}}</view>
+        <view class="bar" style="height: {{item.height}}rpx;"></view>
+        <view class="bar-label">{{item.label}}</view>
+      </view>
+    </view>
+    <view class="empty" wx:else>暂无趋势数据</view>
+  </view>
+
+  <view class="grid-2 section">
+    <button class="btn secondary" bindtap="goDevice">设备管理</button>
+    <button class="btn secondary" bindtap="goProfile">个人设置</button>
+  </view>
+</view>

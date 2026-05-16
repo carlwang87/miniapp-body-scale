@@ -1,0 +1,114 @@
+.state-text {
+  margin-top: 8rpx;
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.device-line {
+  margin-top: 18rpx;
+  color: #52606d;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.guide {
+  margin-top: 20rpx;
+}
+
+.guide-step {
+  display: flex;
+  align-items: center;
+  min-height: 72rpx;
+  color: #829ab1;
+}
+
+.guide-step.active {
+  color: #102a43;
+  font-weight: 700;
+}
+
+.step-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42rpx;
+  height: 42rpx;
+  margin-right: 18rpx;
+  border-radius: 50%;
+  color: #fff;
+  background: #9fb3c8;
+  font-size: 22rpx;
+}
+
+.guide-step.active .step-dot {
+  background: #0b6bcb;
+}
+
+.small-btn {
+  width: 120rpx;
+  min-height: 58rpx;
+  padding: 0;
+  font-size: 24rpx;
+}
+
+.result-grid {
+  margin-top: 24rpx;
+}
+
+.status-pill {
+  margin-top: 14rpx;
+}
+
+.status-pill.normal {
+  color: #17643b;
+  background: #dcf7e7;
+}
+
+.status-pill.high,
+.status-pill.low {
+  color: #8a4b00;
+  background: #fff4d6;
+}
+
+.status-pill.danger {
+  color: #9b1c1c;
+  background: #fde2e2;
+}
+
+.report {
+  margin-top: 24rpx;
+  color: #334e68;
+  line-height: 1.7;
+}
+
+.raw-current,
+.raw-hex {
+  overflow-wrap: break-word;
+  word-break: break-all;
+  font-family: Menlo, Consolas, monospace;
+}
+
+.raw-current {
+  margin-top: 20rpx;
+  padding: 18rpx;
+  border-radius: 8rpx;
+  color: #102a43;
+  background: #edf2f7;
+}
+
+.raw-log {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #edf2f7;
+}
+
+.success {
+  color: #17643b;
+}
+
+.failed {
+  color: #9b1c1c;
+}

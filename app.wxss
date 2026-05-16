@@ -1,0 +1,163 @@
+page {
+  min-height: 100%;
+  color: #102a43;
+  background: #f4f7f9;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 28rpx;
+}
+
+button {
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  line-height: 1.25;
+}
+
+button::after {
+  border: 0;
+}
+
+input,
+picker,
+textarea {
+  box-sizing: border-box;
+}
+
+.page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 28rpx;
+}
+
+.section {
+  margin-top: 24rpx;
+}
+
+.card {
+  box-sizing: border-box;
+  padding: 28rpx;
+  border: 1rpx solid #d9e2ec;
+  border-radius: 8rpx;
+  background: #fff;
+}
+
+.title {
+  color: #102a43;
+  font-size: 38rpx;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin-top: 8rpx;
+  color: #52606d;
+  font-size: 24rpx;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+}
+
+.muted {
+  color: #829ab1;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44rpx;
+  padding: 0 18rpx;
+  border-radius: 999rpx;
+  color: #334e68;
+  background: #e6f6ff;
+  font-size: 22rpx;
+  white-space: nowrap;
+}
+
+.pill.warn {
+  color: #8a4b00;
+  background: #fff4d6;
+}
+
+.pill.ok {
+  color: #17643b;
+  background: #dcf7e7;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 84rpx;
+  padding: 0 28rpx;
+  color: #fff;
+  background: #0b6bcb;
+  font-weight: 700;
+}
+
+.btn.secondary {
+  color: #102a43;
+  background: #d9e2ec;
+}
+
+.btn.danger {
+  color: #fff;
+  background: #c52727;
+}
+
+.btn.ghost {
+  color: #0b6bcb;
+  background: #e6f6ff;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18rpx;
+}
+
+.metric {
+  padding: 22rpx;
+  border: 1rpx solid #d9e2ec;
+  border-radius: 8rpx;
+  background: #fbfcfd;
+}
+
+.metric-label {
+  color: #52606d;
+  font-size: 22rpx;
+}
+
+.metric-value {
+  margin-top: 8rpx;
+  color: #102a43;
+  font-size: 38rpx;
+  font-weight: 750;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  min-height: 92rpx;
+  border-bottom: 1rpx solid #edf2f7;
+}
+
+.form-label {
+  width: 180rpx;
+  color: #52606d;
+}
+
+.form-control {
+  flex: 1;
+  min-width: 0;
+  color: #102a43;
+  text-align: right;
+}
+
+.empty {
+  padding: 48rpx 20rpx;
+  color: #829ab1;
+  text-align: center;
+}

@@ -1,0 +1,21 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/measure/measure",
+    "pages/device/device",
+    "pages/history/history",
+    "pages/trend/trend",
+    "pages/member/member",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "navigationBarTitleText": "智能体脂秤",
+    "navigationBarBackgroundColor": "#102A43",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F4F7F9",
+    "backgroundTextStyle": "dark"
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

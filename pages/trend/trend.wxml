@@ -1,0 +1,47 @@
+<view class="page">
+  <view class="card">
+    <view class="filter-row">
+      <picker mode="selector" range="{{metricLabels}}" value="{{selectedMetricIndex}}" bindchange="onMetricChange">
+        <view class="filter-box">
+          <text class="muted">指标</text>
+          <text>{{metricLabels[selectedMetricIndex]}}</text>
+        </view>
+      </picker>
+      <picker mode="selector" range="{{rangeLabels}}" value="{{selectedRangeIndex}}" bindchange="onRangeChange">
+        <view class="filter-box">
+          <text class="muted">范围</text>
+          <text>{{rangeLabels[selectedRangeIndex]}}</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="card section">
+    <view class="section-title">{{chartTitle}}</view>
+    <canvas id="trend-canvas" class="trend-canvas" canvas-id="trendCanvas" bindtap="onChartTap"></canvas>
+    <view class="point-card" wx:if="{{selectedPoint}}">
+      <text>{{selectedPoint.label}}</text>
+      <text>{{selectedPoint.valueText}}</text>
+      <text class="muted">{{selectedPoint.source}}</text>
+    </view>
+  </view>
+
+  <view class="grid-2 section" wx:if="{{stats}}">
+    <view class="metric">
+      <view class="metric-label">最大值</view>
+      <view class="metric-value">{{stats.max}}</view>
+    </view>
+    <view class="metric">
+      <view class="metric-label">最小值</view>
+      <view class="metric-value">{{stats.min}}</view>
+    </view>
+    <view class="metric">
+      <view class="metric-label">平均值</view>
+      <view class="metric-value">{{stats.avg}}</view>
+    </view>
+    <view class="metric">
+      <view class="metric-label">变化趋势</view>
+      <view class="metric-value">{{stats.change}}</view>
+    </view>
+  </view>
+</view>

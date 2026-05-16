@@ -1,0 +1,49 @@
+.filter-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18rpx;
+}
+
+.filter-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 92rpx;
+  padding: 0 22rpx;
+  border: 1rpx solid #d9e2ec;
+  border-radius: 8rpx;
+  background: #fbfcfd;
+}
+
+.record {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #edf2f7;
+}
+
+.record:last-child {
+  border-bottom: 0;
+}
+
+.record-time {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.weight {
+  color: #0b6bcb;
+  font-size: 38rpx;
+  font-weight: 750;
+}
+
+.record-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12rpx;
+  margin-top: 20rpx;
+  color: #52606d;
+  font-size: 24rpx;
+}
+
+.record-actions {
+  margin-top: 20rpx;
+}

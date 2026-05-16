@@ -1,0 +1,54 @@
+.state-text,
+.device-name {
+  margin-top: 8rpx;
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.info-line {
+  margin-top: 14rpx;
+  color: #52606d;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+.action-grid {
+  margin-top: 24rpx;
+}
+
+.device-item {
+  margin-top: 22rpx;
+  padding-top: 22rpx;
+  border-top: 1rpx solid #edf2f7;
+}
+
+.device-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.device-list-name {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.adv {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  border-radius: 8rpx;
+  color: #52606d;
+  background: #edf2f7;
+  font-family: Menlo, Consolas, monospace;
+  font-size: 22rpx;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+.bind-btn {
+  margin-top: 18rpx;
+}

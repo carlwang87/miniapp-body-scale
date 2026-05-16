@@ -1,0 +1,52 @@
+<view class="page">
+  <view class="card">
+    <view class="row">
+      <view class="section-title">成员列表</view>
+      <button class="btn ghost small-btn" bindtap="newMember">新增</button>
+    </view>
+
+    <view class="member-item" wx:for="{{members}}" wx:key="id">
+      <view class="row">
+        <view>
+          <view class="member-name">{{item.name}}</view>
+          <view class="muted">{{item.gender === 'FEMALE' ? '女' : '男'}} · {{item.heightCm}}cm · 目标 {{item.targetWeightKg || '--'}}kg</view>
+        </view>
+        <view class="pill {{item.id === currentMemberId ? 'ok' : ''}}">{{item.id === currentMemberId ? '当前' : '成员'}}</view>
+      </view>
+      <view class="grid-2 member-actions">
+        <button class="btn ghost" data-id="{{item.id}}" bindtap="editMember">编辑</button>
+        <button class="btn secondary" data-id="{{item.id}}" bindtap="setDefault">设为默认</button>
+      </view>
+      <button class="btn danger delete-btn" data-id="{{item.id}}" bindtap="deleteMember">删除</button>
+    </view>
+  </view>
+
+  <view class="card section">
+    <view class="section-title">{{editing ? '编辑成员' : '新增成员'}}</view>
+    <view class="form-row">
+      <view class="form-label">昵称 *</view>
+      <input class="form-control" value="{{form.name}}" placeholder="成员姓名" data-field="name" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <view class="form-label">性别 *</view>
+      <picker class="form-control" mode="selector" range="{{genderOptions}}" value="{{genderIndex}}" bindchange="onGenderChange">
+        <view>{{genderOptions[genderIndex]}}</view>
+      </picker>
+    </view>
+    <view class="form-row">
+      <view class="form-label">生日 *</view>
+      <picker class="form-control" mode="date" value="{{form.birthday}}" bindchange="onBirthdayChange">
+        <view>{{form.birthday}}</view>
+      </picker>
+    </view>
+    <view class="form-row">
+      <view class="form-label">身高 *</view>
+      <input class="form-control" type="digit" value="{{form.heightCm}}" placeholder="cm" data-field="heightCm" bindinput="onInput" />
+    </view>
+    <view class="form-row">
+      <view class="form-label">目标体重</view>
+      <input class="form-control" type="digit" value="{{form.targetWeightKg}}" placeholder="kg" data-field="targetWeightKg" bindinput="onInput" />
+    </view>
+    <button class="btn section" bindtap="saveForm">保存成员</button>
+  </view>
+</view>

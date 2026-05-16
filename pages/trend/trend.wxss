@@ -1,0 +1,38 @@
+.filter-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18rpx;
+}
+
+.filter-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 92rpx;
+  padding: 0 22rpx;
+  border: 1rpx solid #d9e2ec;
+  border-radius: 8rpx;
+  background: #fbfcfd;
+}
+
+.section-title {
+  margin-bottom: 18rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.trend-canvas {
+  width: 100%;
+  height: 440rpx;
+}
+
+.point-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 72rpx;
+  margin-top: 18rpx;
+  padding: 0 20rpx;
+  border-radius: 8rpx;
+  background: #edf2f7;
+}

@@ -1,0 +1,63 @@
+<view class="page">
+  <view class="card">
+    <view class="row">
+      <view>
+        <view class="muted">蓝牙连接状态</view>
+        <view class="state-text">{{state}}</view>
+      </view>
+      <view class="pill {{state === '已连接' || state === '测量中' ? 'ok' : 'warn'}}">{{state}}</view>
+    </view>
+    <view class="device-line">设备：{{device ? device.deviceName : '尚未绑定'}}</view>
+    <view class="device-line">成员：{{member ? member.name : '未设置'}}</view>
+  </view>
+
+  <view class="card section">
+    <view class="section-title">测量引导</view>
+    <view class="guide">
+      <view class="guide-step {{index <= stepIndex ? 'active' : ''}}" wx:for="{{guideSteps}}" wx:key="*this">
+        <view class="step-dot">{{index + 1}}</view>
+        <view>{{item}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="grid-2 section">
+    <button class="btn" bindtap="startMeasurement">连接并测量</button>
+    <button class="btn secondary" bindtap="startMockMeasurement">模拟测量</button>
+  </view>
+
+  <view class="card section" wx:if="{{result}}">
+    <view class="row">
+      <view>
+        <view class="section-title">本次结果</view>
+        <view class="muted">{{result.timeText}}</view>
+      </view>
+      <button class="btn ghost small-btn" bindtap="goHistory">历史</button>
+    </view>
+    <view class="grid-2 result-grid">
+      <view class="metric" wx:for="{{resultMetrics}}" wx:key="key">
+        <view class="metric-label">{{item.label}}</view>
+        <view class="metric-value">{{item.value}}</view>
+        <view class="pill status-pill {{item.status.tone}}">{{item.status.label}}</view>
+      </view>
+    </view>
+    <view class="report">{{report}}</view>
+  </view>
+
+  <view class="card section">
+    <view class="row">
+      <view class="section-title">BLE 原始数据</view>
+      <button class="btn ghost small-btn" bindtap="goDevice">设备</button>
+    </view>
+    <view class="raw-current" wx:if="{{rawHex}}">{{rawHex}}</view>
+    <view class="empty" wx:else>等待 notify 数据。也可以使用模拟测量生成示例 raw hex。</view>
+    <view class="raw-log" wx:for="{{rawLogs}}" wx:key="id">
+      <view class="row">
+        <text>{{item.timeText}}</text>
+        <text class="{{item.parseStatus === 'SUCCESS' ? 'success' : 'failed'}}">{{item.parseStatus}}</text>
+      </view>
+      <view class="raw-hex">{{item.rawHex}}</view>
+      <view class="muted" wx:if="{{item.parseError}}">{{item.parseError}}</view>
+    </view>
+  </view>
+</view>

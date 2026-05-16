@@ -1,0 +1,36 @@
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.openid {
+  margin-top: 8rpx;
+  max-width: 440rpx;
+  overflow: hidden;
+  color: #334e68;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.small-btn {
+  width: 120rpx;
+  min-height: 58rpx;
+  padding: 0;
+  font-size: 24rpx;
+}
+
+.remark-row {
+  align-items: flex-start;
+  padding-top: 24rpx;
+}
+
+.remark {
+  min-height: 120rpx;
+  text-align: right;
+}
+
+.privacy {
+  margin-top: 18rpx;
+  color: #52606d;
+  line-height: 1.7;
+}
