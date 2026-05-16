@@ -1,15 +1,24 @@
 const ci = require('miniprogram-ci');
-const { existsSync } = require('fs');
+const { existsSync, readFileSync } = require('fs');
 const { resolve } = require('path');
 
-const appid = process.env.MP_APPID;
+function getProjectAppId() {
+  const configPath = resolve(process.cwd(), 'project.config.json');
+  if (!existsSync(configPath)) {
+    return '';
+  }
+  const config = JSON.parse(readFileSync(configPath, 'utf8'));
+  return config.appid || '';
+}
+
+const appid = process.env.MP_APPID || getProjectAppId();
 const privateKeyPath = process.env.MP_PRIVATE_KEY_PATH || resolve(process.cwd(), 'private.key');
 const version = process.env.MP_VERSION || process.env.GITHUB_REF_NAME || '0.1.0';
 const desc = process.env.MP_DESC || process.env.GITHUB_SHA || 'GitHub Actions upload';
 const robot = Number(process.env.MP_ROBOT || 1);
 
-if (!appid) {
-  throw new Error('Missing MP_APPID secret.');
+if (!appid || appid === 'touristappid') {
+  throw new Error('Missing real Mini Program AppID. Set MP_APPID or project.config.json appid.');
 }
 
 if (!existsSync(privateKeyPath)) {

@@ -17,7 +17,7 @@
 
 1. 打开微信开发者工具。
 2. 选择“导入项目”，目录选择当前仓库。
-3. AppID 可继续使用 `touristappid`，或替换为你的小程序 AppID。
+3. 当前 AppID 已配置为 `wxc67238f7f4d8df5d`，也可替换为其他小程序 AppID。
 4. 先在“设备管理”页添加模拟设备或扫描真实 BLE 设备。
 5. 在“测量”页可以用模拟测量完成一次完整数据闭环。
 
@@ -45,12 +45,12 @@ EW-FA33 的真实 BLE 协议仍需实机抓包确认。当前 `utils/parser.js` 
 自动上传前，需要在 GitHub 仓库配置 Actions secrets：
 
 ```text
-MP_APPID=微信小程序 AppID
 MP_PRIVATE_KEY=微信公众平台下载的代码上传密钥文件内容
 ```
 
 注意：
 
+- 当前 `project.config.json` 已配置 AppID：`wxc67238f7f4d8df5d`。如需覆盖，也可以额外配置 `MP_APPID`。
 - `AppSecret` 不是代码上传密钥，不要放进小程序前端代码。
 - 代码上传密钥来自“微信公众平台 -> 开发 -> 开发管理 -> 开发设置 -> 小程序代码上传”。
 - GitHub Actions 的公网 IP 不固定，如微信后台开启 IP 白名单，可能需要关闭白名单或改用固定 IP 的 self-hosted runner。
